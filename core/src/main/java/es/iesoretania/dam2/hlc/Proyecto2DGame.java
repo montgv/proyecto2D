@@ -1,8 +1,6 @@
 package es.iesoretania.dam2.hlc;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,7 +17,7 @@ public class Proyecto2DGame extends Game {
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
-		gameSkin = new Skin(Gdx.files.internal(""));
+		gameSkin = new Skin(Gdx.files.internal("rainbow/skin/rainbow-ui.json"));
 		setScreen(new MenuScreen(this));
 	}
 
