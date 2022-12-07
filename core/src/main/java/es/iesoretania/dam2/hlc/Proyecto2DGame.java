@@ -17,7 +17,7 @@ public class Proyecto2DGame extends Game {
 		font = new BitmapFont();
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
-		gameSkin = new Skin(Gdx.files.internal("rainbow/skin/rainbow-ui.json"));
+		gameSkin = new Skin(Gdx.files.internal("freezing/skin/freezing-ui.json"));
 		setScreen(new MenuScreen(this));
 	}
 

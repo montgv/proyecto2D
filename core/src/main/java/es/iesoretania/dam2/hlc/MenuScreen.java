@@ -19,7 +19,7 @@ public class MenuScreen extends ScreenAdapter {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Proyecto 2D", game.gameSkin, "default");
+        Label title = new Label("Proyecto 2D", game.gameSkin, "title");
         title.setAlignment(Align.center);
         title.setY(Gdx.graphics.getHeight() * 2 / 3);
         title.setWidth(Gdx.graphics.getWidth());
@@ -69,7 +69,7 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,1,1,1);
+        Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
