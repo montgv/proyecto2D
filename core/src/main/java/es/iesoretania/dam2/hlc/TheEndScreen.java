@@ -11,23 +11,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MenuScreen extends ScreenAdapter {
+public class TheEndScreen extends ScreenAdapter {
     private final Proyecto2DGame game;
     private Stage stage;
 
-    public MenuScreen(Proyecto2DGame game) {
+    public TheEndScreen(Proyecto2DGame game, int puntos, boolean ganador) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Proyecto 2D", game.gameSkin , "title");
-        title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight() * 2 / 3);
-        title.setWidth(Gdx.graphics.getWidth());
-        stage.addActor(title);
+        if (ganador) {
+            Label title = new Label("HAS GANADO, HAS CONSEGUIDO " + puntos + " PUNTOS", game.gameSkin, "title");
+            title.setAlignment(Align.center);
+            title.setY(Gdx.graphics.getHeight() * 2 / 3);
+            title.setWidth(Gdx.graphics.getWidth());
+            stage.addActor(title);
+        } else {
+            Label title = new Label("HAS PERDIDO, HAS CONSEGUIDO " + puntos + " PUNTOS", game.gameSkin, "title");
+            title.setAlignment(Align.center);
+            title.setY(Gdx.graphics.getHeight() * 2 / 3);
+            title.setWidth(Gdx.graphics.getWidth());
+            stage.addActor(title);
+        }
 
-        //Nivel de dificultad
-
-        TextButton startButton = new TextButton("Empezar", game.gameSkin);
+        TextButton startButton = new TextButton("VOLVER A JUGAR", game.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 4);
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - startButton.getHeight() / 2);
@@ -43,23 +49,6 @@ public class MenuScreen extends ScreenAdapter {
             }
         });
         stage.addActor(startButton);
-
-        TextButton exitButton = new TextButton("Salir", game.gameSkin);
-        exitButton.setWidth(Gdx.graphics.getWidth() / 4);
-        exitButton.setPosition(Gdx.graphics.getWidth() / 2 - exitButton.getWidth() / 2,
-                Gdx.graphics.getHeight() / 4 - exitButton.getHeight() / 2);
-        exitButton.addListener(new InputListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.exit();
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        stage.addActor(exitButton);
     }
 
     @Override
