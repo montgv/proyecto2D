@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class TheEndScreen extends ScreenAdapter {
-    private final Proyecto2DGame game;
+    private final XmasGame game;
     private Stage stage;
 
-    public TheEndScreen(Proyecto2DGame game, int puntos, boolean ganador) {
+    public TheEndScreen(XmasGame game, int puntos, boolean ganador) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 

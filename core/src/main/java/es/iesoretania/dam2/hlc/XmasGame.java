@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class Proyecto2DGame extends Game {
+public class XmasGame extends Game {
 	BitmapFont font;
 	SpriteBatch batch;
 	ShapeRenderer shapeRenderer;
