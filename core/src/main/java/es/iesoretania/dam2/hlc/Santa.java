@@ -38,7 +38,7 @@ public class Santa extends Actor {
 
     private float stateTime = 0f;
 
-    public Santa() {
+    public Santa(float x, float y) {
         if (reposoAbajo == null) {
             reposoAbajo = new TextureRegion(imagen, 96,0,32,32);
             reposoIzq = new TextureRegion(imagen, 96,32,32,32);
@@ -82,8 +82,8 @@ public class Santa extends Actor {
 
         addListener(new SantaListener());
 
-        setX(getStage().getViewport().getScreenWidth() / 2);
-        setY(getStage().getViewport().getScreenHeight() / 2);
+        setX(x);
+        setY(y);
     }
 
     @Override
@@ -127,6 +127,11 @@ public class Santa extends Actor {
             if (animationActual == animationDer) actual = reposoDer;
             if (animationActual == animationIzq) actual = reposoIzq;
         }
+
+        if (getX() < 0) setX(0);
+        if (getX() + 32 > 800) setX(800 - 32);
+        if (getY() < 69) setY(69);
+        if (getY() > 553) setY(553);
     }
 
     public Rectangle getShape() {
