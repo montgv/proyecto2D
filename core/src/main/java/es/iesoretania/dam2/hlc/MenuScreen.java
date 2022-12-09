@@ -19,7 +19,8 @@ public class MenuScreen extends ScreenAdapter {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Proyecto 2D", game.gameSkin , "title");
+        //Añadimos el titulo del juego y su posicion
+        Label title = new Label("Xmas Game", game.gameSkin , "title");
         title.setAlignment(Align.center);
         title.setY(Gdx.graphics.getHeight() * 2 / 3);
         title.setWidth(Gdx.graphics.getWidth());
@@ -27,6 +28,7 @@ public class MenuScreen extends ScreenAdapter {
 
         //Nivel de dificultad
 
+        //Añadimos el boton de empezar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla del juego
         TextButton startButton = new TextButton("Empezar", game.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 4);
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
@@ -44,6 +46,7 @@ public class MenuScreen extends ScreenAdapter {
         });
         stage.addActor(startButton);
 
+        //Añadimos el boton de salir y su posicion, cuando pulsamos el boton que se nos cierre el juego
         TextButton exitButton = new TextButton("Salir", game.gameSkin);
         exitButton.setWidth(Gdx.graphics.getWidth() / 4);
         exitButton.setPosition(Gdx.graphics.getWidth() / 2 - exitButton.getWidth() / 2,
@@ -62,11 +65,13 @@ public class MenuScreen extends ScreenAdapter {
         stage.addActor(exitButton);
     }
 
+    //Metodo que se llama para mostrar la pantalla, este caso se muestra el escenario
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
+    //Metodo que se llama para dibujar un frame, primero se dibuja sin nada y acontinuacion el escenario
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,0);
@@ -75,11 +80,13 @@ public class MenuScreen extends ScreenAdapter {
         stage.draw();
     }
 
+    //Metodo que se llama para que se esconda la pantalla
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
 
+    //Metodo que se llama para liberar recursos
     @Override
     public void dispose() {
         stage.dispose();

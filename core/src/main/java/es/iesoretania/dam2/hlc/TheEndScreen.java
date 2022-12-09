@@ -20,20 +20,21 @@ public class TheEndScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
 
         if (ganador) {
-            Label title = new Label("HAS GANADO, HAS CONSEGUIDO " + puntos + " PUNTOS", game.gameSkin, "title");
+            Label title = new Label("Has ganado, has conseguido " + puntos + " puntos", game.gameSkin, "title");
             title.setAlignment(Align.center);
             title.setY(Gdx.graphics.getHeight() * 2 / 3);
             title.setWidth(Gdx.graphics.getWidth());
             stage.addActor(title);
         } else {
-            Label title = new Label("HAS PERDIDO, HAS CONSEGUIDO " + puntos + " PUNTOS", game.gameSkin, "title");
+            Label title = new Label("Has perdido, has conseguido " + puntos + " puntos", game.gameSkin, "title");
             title.setAlignment(Align.center);
             title.setY(Gdx.graphics.getHeight() * 2 / 3);
             title.setWidth(Gdx.graphics.getWidth());
             stage.addActor(title);
         }
 
-        TextButton startButton = new TextButton("VOLVER A JUGAR", game.gameSkin);
+        //Añadimos el boton de volver a jugar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla del juego
+        TextButton startButton = new TextButton("Volver a jugar", game.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 4);
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - startButton.getHeight() / 2);
@@ -51,11 +52,13 @@ public class TheEndScreen extends ScreenAdapter {
         stage.addActor(startButton);
     }
 
+    //Metodo que se llama para mostrar la pantalla, este caso se muestra el escenario
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
+    //Metodo que se llama para dibujar un frame, primero se dibuja sin nada y acontinuacion el escenario
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,0);
@@ -64,11 +67,13 @@ public class TheEndScreen extends ScreenAdapter {
         stage.draw();
     }
 
+    //Metodo que se llama para que se esconda la pantalla
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
 
+    //Metodo que se llama para liberar recursos
     @Override
     public void dispose() {
         stage.dispose();
