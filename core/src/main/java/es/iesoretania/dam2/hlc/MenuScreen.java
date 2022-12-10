@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,7 +34,6 @@ public class MenuScreen extends ScreenAdapter {
         title.setWidth(Gdx.graphics.getWidth());
         stage.addActor(title);
 
-        //Eleccion del personaje
 
 
         //Añadimos el boton de empezar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla del juego
