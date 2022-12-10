@@ -2,6 +2,7 @@ package es.iesoretania.dam2.hlc;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,10 +15,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class MenuScreen extends ScreenAdapter {
     private final XmasGame game;
     private Stage stage;
+    private Music musicaFondo;
 
     public MenuScreen(XmasGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
+
+        //Añadimos la musica de fondo
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Sonidos/musicaFondo.wav"));
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
 
         //Añadimos el titulo del juego y su posicion
         Label title = new Label("Xmas Game", game.gameSkin , "title");
@@ -90,5 +97,6 @@ public class MenuScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        musicaFondo.dispose();
     }
 }
