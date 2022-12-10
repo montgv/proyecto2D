@@ -33,7 +33,7 @@ public class TheEndScreen extends ScreenAdapter {
             stage.addActor(title);
         }
 
-        //Añadimos el boton de volver a jugar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla del juego
+        //Añadimos el boton de volver a jugar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla de inicio
         TextButton startButton = new TextButton("Volver a jugar", game.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 4);
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
@@ -41,7 +41,7 @@ public class TheEndScreen extends ScreenAdapter {
         startButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new MenuScreen(game));
             }
 
             @Override

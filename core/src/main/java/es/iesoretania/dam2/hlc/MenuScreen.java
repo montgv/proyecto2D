@@ -34,17 +34,28 @@ public class MenuScreen extends ScreenAdapter {
         title.setWidth(Gdx.graphics.getWidth());
         stage.addActor(title);
 
-
+        //Eleccion del personaje con un selectBox y por defecto pone a santa
+        SelectBox personajeSelectBox = new SelectBox(game.gameSkin, "default");
+        personajeSelectBox.setItems("Santa", "Rudolph", "Elfo");
+        personajeSelectBox.setSelected("Santa");
+        personajeSelectBox.setWidth(Gdx.graphics.getWidth() / 4);
+        personajeSelectBox.setPosition(Gdx.graphics.getWidth() / 2 - personajeSelectBox.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - personajeSelectBox.getHeight() / 2);
+        stage.addActor(personajeSelectBox);
 
         //Añadimos el boton de empezar y su posicion, cuando pulsamos el boton que se nos vaya a la pantalla del juego
         TextButton startButton = new TextButton("Empezar", game.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 4);
-        startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
+        startButton.setPosition(Gdx.graphics.getWidth() / 4 - startButton.getWidth() / 2,
                 Gdx.graphics.getHeight() / 4 - startButton.getHeight() / 2);
         startButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                //Quitamos el volumen en la pantalla
+                musicaFondo.setVolume(0f);
+                //Guardamos en una variable la posicion del personaje seleccionado y se lo pasamos a la pantalla de juego
+                int indiceSeleccionado = personajeSelectBox.getSelectedIndex();
+                game.setScreen(new GameScreen(game, indiceSeleccionado));
             }
 
             @Override
@@ -57,8 +68,8 @@ public class MenuScreen extends ScreenAdapter {
         //Añadimos el boton de salir y su posicion, cuando pulsamos el boton que se nos cierre el juego
         TextButton exitButton = new TextButton("Salir", game.gameSkin);
         exitButton.setWidth(Gdx.graphics.getWidth() / 4);
-        exitButton.setPosition(Gdx.graphics.getWidth() / 2 - exitButton.getWidth() / 2,
-                Gdx.graphics.getHeight() / 6 - exitButton.getHeight() / 2);
+        exitButton.setPosition(Gdx.graphics.getWidth() / 2 + exitButton.getWidth() / 2,
+                Gdx.graphics.getHeight() / 4 - exitButton.getHeight() / 2);
         exitButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {

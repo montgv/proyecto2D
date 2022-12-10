@@ -21,8 +21,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camara;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
-    //private Santa santa;
-    //private Rudolph rudolph;
+    private Santa santa;
+    private Rudolph rudolph;
     private Elfo elfo;
     private Array<ObjetosRestan> objetosRestanArray;
     private Array<ObjetosSuman> objetosSumanArray;
@@ -32,16 +32,16 @@ public class GameScreen extends ScreenAdapter {
     private Sound sonidoRestarPuntos;
     private Puntuacion puntuacion;
 
+    private int personajeSeleccionado = 0;
 
-    public GameScreen(XmasGame game) {
+    public GameScreen(XmasGame game, int personajeSeleccionado) {
         this.game = game;
+        this.personajeSeleccionado = personajeSeleccionado;
+
         camara = new OrthographicCamera();
         stage = new Stage(new ScreenViewport(camara));
         tiledMap = new TmxMapLoader().load("Mapa/tilemapXmasGame.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        //santa = new Santa(393, 506);
-        //rudolph = new Rudolph(393, 506);
-        elfo = new Elfo(393, 506);
         generadorTiempoRestan = 0;
         generadorTiempoSuman = 0;
         sonidoSumarPuntos = Gdx.audio.newSound(Gdx.files.internal("Sonidos/sonidoSumaPuntos.wav"));
@@ -49,15 +49,26 @@ public class GameScreen extends ScreenAdapter {
         puntuacion = new Puntuacion(new BitmapFont());
         puntuacion.setPosition(490, 40);
         puntuacion.puntuacion = 0;
-
-        //stage.addActor(santa);
-        //stage.setKeyboardFocus(santa);
-        //stage.addActor(rudolph);
-        //stage.setKeyboardFocus(rudolph);
-        stage.addActor(elfo);
-        stage.setKeyboardFocus(elfo);
-
         stage.addActor(puntuacion);
+
+
+        switch (personajeSeleccionado) {
+            case 0:
+                santa = new Santa(393, 506);
+                stage.addActor(santa);
+                stage.setKeyboardFocus(santa);
+                break;
+            case 1:
+                rudolph = new Rudolph(393, 506);
+                stage.addActor(rudolph);
+                stage.setKeyboardFocus(rudolph);
+                break;
+            case 2:
+                elfo = new Elfo(393, 506);
+                stage.addActor(elfo);
+                stage.setKeyboardFocus(elfo);
+                break;
+        }
 
         objetosRestanArray = new Array<>();
         objetosResta();
@@ -101,25 +112,73 @@ public class GameScreen extends ScreenAdapter {
         }
 
         //Desarrollo del juego
-        for (int i = 0; i < objetosRestanArray.size; i++) {
-            if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), elfo.getShape())) {
-                //Aqui resto los puntos
-                puntuacion.puntuacion = puntuacion.puntuacion - 10;
+        switch (personajeSeleccionado) {
+            case 0:
+                for (int i = 0; i < objetosRestanArray.size; i++) {
+                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), santa.getShape())) {
+                        //Aqui resto los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
 
-                sonidoRestarPuntos.play();
-                objetosRestanArray.get(i).setVisible(false);
-            }
+                        sonidoRestarPuntos.play();
+                        objetosRestanArray.get(i).setVisible(false);
+                    }
+                }
+
+                for (int i = 0; i < objetosSumanArray.size; i++) {
+                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), santa.getShape())) {
+                        //Aqui sumo los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
+
+                        sonidoSumarPuntos.play();
+                        objetosSumanArray.get(i).setVisible(false);
+                    }
+                }
+                break;
+            case 1:
+                for (int i = 0; i < objetosRestanArray.size; i++) {
+                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), rudolph.getShape())) {
+                        //Aqui resto los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
+
+                        sonidoRestarPuntos.play();
+                        objetosRestanArray.get(i).setVisible(false);
+                    }
+                }
+
+                for (int i = 0; i < objetosSumanArray.size; i++) {
+                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), rudolph.getShape())) {
+                        //Aqui sumo los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
+
+                        sonidoSumarPuntos.play();
+                        objetosSumanArray.get(i).setVisible(false);
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < objetosRestanArray.size; i++) {
+                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), elfo.getShape())) {
+                        //Aqui resto los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
+
+                        sonidoRestarPuntos.play();
+                        objetosRestanArray.get(i).setVisible(false);
+                    }
+                }
+
+                for (int i = 0; i < objetosSumanArray.size; i++) {
+                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), elfo.getShape())) {
+                        //Aqui sumo los puntos
+                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
+
+                        sonidoSumarPuntos.play();
+                        objetosSumanArray.get(i).setVisible(false);
+                    }
+                }
+                break;
         }
 
-        for (int i = 0; i < objetosSumanArray.size; i++) {
-            if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), elfo.getShape())) {
-                //Aqui sumo los puntos
-                puntuacion.puntuacion = puntuacion.puntuacion + 5;
 
-                sonidoSumarPuntos.play();
-                objetosSumanArray.get(i).setVisible(false);
-            }
-        }
 
         mapRenderer.setView(camara);
         mapRenderer.render();
