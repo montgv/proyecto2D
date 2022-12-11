@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -137,7 +138,7 @@ public class GameScreen extends ScreenAdapter {
             generadorTiempoSuman = 0;
         }
 
-        //Generamos un temporizador que empieza en 60, donde va restando tiempo cada segundo que pasa
+        //Generamos un temporizador, donde va restando tiempo de un segundo cada segundo que pasa el temporizador
         generadorTiempo += delta;
         if (generadorTiempo >= 1) {
             tiempo.tiempo -= 1;
@@ -145,80 +146,35 @@ public class GameScreen extends ScreenAdapter {
         }
 
         //Desarrollo del juego
+        //Segun sea el valor del personajeSeleccionado que proviene de la pantalla de MenuScreen, comprobaremos
+        //las colisiones de los diferentes objetos entre los diferentes personajes
         switch (personajeSeleccionado) {
             case 0:
-                for (int i = 0; i < objetosRestanArray.size; i++) {
-                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), santa.getShape())) {
-                        //Aqui resto los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
-
-                        sonidoRestarPuntos.play();
-                        objetosRestanArray.get(i).setVisible(false);
-                    }
-                }
-
-                for (int i = 0; i < objetosSumanArray.size; i++) {
-                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), santa.getShape())) {
-                        //Aqui sumo los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
-
-                        sonidoSumarPuntos.play();
-                        objetosSumanArray.get(i).setVisible(false);
-                    }
-                }
+                //Comprobamos las colisiones que restan y suman puntos con santa
+                comprobacionRestan(santa.getShape());
+                comprobacionSuman(santa.getShape());
                 break;
             case 1:
-                for (int i = 0; i < objetosRestanArray.size; i++) {
-                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), rudolph.getShape())) {
-                        //Aqui resto los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
-
-                        sonidoRestarPuntos.play();
-                        objetosRestanArray.get(i).setVisible(false);
-                    }
-                }
-
-                for (int i = 0; i < objetosSumanArray.size; i++) {
-                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), rudolph.getShape())) {
-                        //Aqui sumo los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
-
-                        sonidoSumarPuntos.play();
-                        objetosSumanArray.get(i).setVisible(false);
-                    }
-                }
+                //Comprobamos las colisiones que restan y suman puntos con rudolph
+                comprobacionRestan(rudolph.getShape());
+                comprobacionSuman(rudolph.getShape());
                 break;
             case 2:
-                for (int i = 0; i < objetosRestanArray.size; i++) {
-                    if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), elfo.getShape())) {
-                        //Aqui resto los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion - 10;
-
-                        sonidoRestarPuntos.play();
-                        objetosRestanArray.get(i).setVisible(false);
-                    }
-                }
-
-                for (int i = 0; i < objetosSumanArray.size; i++) {
-                    if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), elfo.getShape())) {
-                        //Aqui sumo los puntos
-                        puntuacion.puntuacion = puntuacion.puntuacion + 5;
-
-                        sonidoSumarPuntos.play();
-                        objetosSumanArray.get(i).setVisible(false);
-                    }
-                }
+                //Comprobamos las colisiones que restan y suman puntos con elfo
+                comprobacionRestan(elfo.getShape());
+                comprobacionSuman(elfo.getShape());
                 break;
         }
-
+        //Si el tiempo a llegado a 0, entonces tenemos dos opciones si puntuacion es mayor que cero, ganador lo
+        // ponemos a true que indica que ha ganado y nos sirve para la pantalla final, y sino ganador es false que
+        // indica que ha perdido y nos sirve para la pantalla final que se llama a continuacion
         if (tiempo.tiempo == 0) {
             if (puntuacion.puntuacion > 0) {
                 ganador = true;
-                game.setScreen(new TheEndScreen(game, puntuacion.puntuacion, ganador));
             } else {
                 ganador = false;
-                game.setScreen(new TheEndScreen(game, puntuacion.puntuacion, ganador));
             }
+            game.setScreen(new TheEndScreen(game, puntuacion.puntuacion, ganador));
         }
 
         //Dibujamos el mapa
@@ -227,6 +183,29 @@ public class GameScreen extends ScreenAdapter {
         //Dibujamos al stage
         stage.act();
         stage.draw();
+    }
+    //Comprobamos el array de objetos que suman puntos, si colisiona sumamos puntos en
+    // puntuacion, se reproduce el sonido asignado y ese objeto del array se vuelve invisible
+    private void comprobacionSuman(Rectangle shape) {
+        for (int i = 0; i < objetosSumanArray.size; i++) {
+            if (objetosSumanArray.get(i).isVisible() && Intersector.overlaps(objetosSumanArray.get(i).getShape(), shape)) {
+                puntuacion.puntuacion = puntuacion.puntuacion + 5;
+                sonidoSumarPuntos.play();
+                objetosSumanArray.get(i).setVisible(false);
+            }
+        }
+    }
+
+    //Comprobamos el array de objetos que restan puntos, si colisiona restamos puntos en
+    // puntuacion, se reproduce el sonido asignado y ese objeto del array se vuelve invisible
+    private void comprobacionRestan(Rectangle shape) {
+        for (int i = 0; i < objetosRestanArray.size; i++) {
+            if (objetosRestanArray.get(i).isVisible() && Intersector.overlaps(objetosRestanArray.get(i).getShape(), shape)) {
+                puntuacion.puntuacion = puntuacion.puntuacion - 10;
+                sonidoRestarPuntos.play();
+                objetosRestanArray.get(i).setVisible(false);
+            }
+        }
     }
 
     //Metodo que se llama para que se esconda la pantalla

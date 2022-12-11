@@ -54,8 +54,9 @@ public class ObjetosSuman extends Actor {
         this.moveBy(90 * delta, 0);
     }
 
-    //Metodo que nos ayuda a la hora de las colisiones
+    //Metodo que nos ayuda a la hora de las colisiones, como hay diferentes objetos de diferente tamaño lo he
+    // ajustado al al ancho mas grande y al alto mas grande
     public Rectangle getShape() {
-        return new Rectangle(getX(), getY(), 32, 32);
+        return new Rectangle(getX(), getY(), 16, 32);
     }
 }

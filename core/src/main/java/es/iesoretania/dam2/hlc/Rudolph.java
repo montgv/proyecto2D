@@ -79,7 +79,7 @@ public class Rudolph extends Actor {
         }
         //Indicamos la posicion actual en ese momento
         actual = reposoAbajo;
-        //
+        //Añadimos el listener donde se capturan los movimientos
         addListener(new RudolphListener());
         //Asignamos valor a la posicion x e y
         setX(x);
@@ -147,7 +147,7 @@ public class Rudolph extends Actor {
         return new Rectangle(getX(), getY(), 32, 32);
     }
 
-    //
+    //Con esta clase capturamos los moviemientos del personaje
     class RudolphListener extends InputListener {
         @Override
         public boolean keyDown(InputEvent event, int keycode) {

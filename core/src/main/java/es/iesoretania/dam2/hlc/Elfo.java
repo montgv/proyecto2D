@@ -79,7 +79,7 @@ public class Elfo extends Actor {
         }
         //Indicamos la posicion actual en ese momento
         actual = reposoAbajo;
-        //
+        //Añadimos el listener donde se capturan los movimientos
         addListener(new SantaListener());
         //Asignamos valor a la posicion x e y
         setX(x);
@@ -147,7 +147,7 @@ public class Elfo extends Actor {
         return new Rectangle(getX(), getY(), 32, 48);
     }
 
-    //
+    //Con esta clase capturamos los moviemientos del personaje
     class SantaListener extends InputListener {
         @Override
         public boolean keyDown(InputEvent event, int keycode) {

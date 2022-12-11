@@ -19,6 +19,8 @@ public class TheEndScreen extends ScreenAdapter {
         this.game = game;
         stage = new Stage(new ScreenViewport());
 
+        //Con el boolean que hemos extraido del la clase GameScreen si es verdadero pone el texto que ha ganado
+        // y los puntos y sino pone el texto que ha perdido y los puntos
         if (ganador) {
             Label title = new Label("Has ganado!!!!!!\nHas conseguido " + puntos + " puntos", game.gameSkin, "title");
             title.setAlignment(Align.center);
