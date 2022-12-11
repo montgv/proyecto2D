@@ -31,6 +31,9 @@ public class GameScreen extends ScreenAdapter {
     private Sound sonidoSumarPuntos;
     private Sound sonidoRestarPuntos;
     private Puntuacion puntuacion;
+    private Tiempo tiempo;
+    private float generadorTiempo;
+    private boolean ganador;
 
     private int personajeSeleccionado = 0;
 
@@ -38,20 +41,34 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.personajeSeleccionado = personajeSeleccionado;
 
+        //Asignamos valor a la camara y al stage que le pasamos la camara tambien
         camara = new OrthographicCamera();
         stage = new Stage(new ScreenViewport(camara));
+        //Asignamos valor al mapa
         tiledMap = new TmxMapLoader().load("Mapa/tilemapXmasGame.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        //Variables que asigna cero y nos va a servir de temporizador
         generadorTiempoRestan = 0;
         generadorTiempoSuman = 0;
+        generadorTiempo = 0;
+        //Asignamos valor a los diferentes sonidos
         sonidoSumarPuntos = Gdx.audio.newSound(Gdx.files.internal("Sonidos/sonidoSumaPuntos.wav"));
         sonidoRestarPuntos = Gdx.audio.newSound(Gdx.files.internal("Sonidos/sonidoRestaPuntos.wav"));
+
+        //Llamamos al actor puntuacion, le damos una posicion, un valor y lo añadimos al stage
         puntuacion = new Puntuacion(new BitmapFont());
         puntuacion.setPosition(490, 40);
         puntuacion.puntuacion = 0;
         stage.addActor(puntuacion);
 
+        //Llamamos al actor tiempo, le damos una posicion, un valor y lo añadimos al stage
+        tiempo = new Tiempo(new BitmapFont());
+        tiempo.setPosition(150, 40);
+        tiempo.tiempo = 60;
+        stage.addActor(tiempo);
 
+        //Segun sea el personaje seleccionado que proviene del MenuScreen, ponemos los diferentes casos
+        //Llamamos al actor, lo posicionamos, lo incorporamos al stage y le decimos que capture los eventos del teclado
         switch (personajeSeleccionado) {
             case 0:
                 santa = new Santa(393, 506);
@@ -70,45 +87,61 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
+        //Asignamos valor a los array y llamamos al esos dos metodos
         objetosRestanArray = new Array<>();
         objetosResta();
         objetosSumanArray = new Array<>();
         objetosSuman();
     }
 
+    //Metodo que genera objetos que restan puntos de forma aleatoria por el mapa pero sin pasar del agua
+    // y del bosque y la casa, lo añade al stage y al array de objetos
     private void objetosResta() {
         ObjetosRestan objeto = new ObjetosRestan(-20, MathUtils.random(69, 553));
         stage.addActor(objeto);
         objetosRestanArray.add(objeto);
     }
 
+    //Metodo que genera objetos que suman puntos de forma aleatoria por el mapa pero sin pasar del agua
+    // y del bosque y la casa, lo añade al stage y al array de objetos
     private void objetosSuman() {
         ObjetosSuman objeto = new ObjetosSuman(-20, MathUtils.random(69,553));
         stage.addActor(objeto);
         objetosSumanArray.add(objeto);
     }
 
+    //Metodo que se llama para mostrar la pantalla, este caso se muestra el escenario
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
+    //Metodo que se llama para dibujar un frame, primero se dibuja sin nada y acontinuacion esta comentado en el codigo
     @Override
     public void render(float delta) {
         super.render(delta);
         Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //Generamos un temporizador, donde cada dos segundos genera un objectoResta
         generadorTiempoRestan += delta;
         if (generadorTiempoRestan >= 2) {
-            generadorTiempoRestan = 0;
             objetosResta();
+            generadorTiempoRestan = 0;
         }
 
+        //Generamos un temporizador, donde cada segundo genera un objectoSuma
         generadorTiempoSuman += delta;
         if (generadorTiempoSuman >= 1) {
-            generadorTiempoSuman = 0;
             objetosSuman();
+            generadorTiempoSuman = 0;
+        }
+
+        //Generamos un temporizador que empieza en 60, donde va restando tiempo cada segundo que pasa
+        generadorTiempo += delta;
+        if (generadorTiempo >= 1) {
+            tiempo.tiempo -= 1;
+            generadorTiempo = 0;
         }
 
         //Desarrollo del juego
@@ -178,19 +211,31 @@ public class GameScreen extends ScreenAdapter {
                 break;
         }
 
+        if (tiempo.tiempo == 0) {
+            if (puntuacion.puntuacion > 0) {
+                ganador = true;
+                game.setScreen(new TheEndScreen(game, puntuacion.puntuacion, ganador));
+            } else {
+                ganador = false;
+                game.setScreen(new TheEndScreen(game, puntuacion.puntuacion, ganador));
+            }
+        }
 
-
+        //Dibujamos el mapa
         mapRenderer.setView(camara);
         mapRenderer.render();
+        //Dibujamos al stage
         stage.act();
         stage.draw();
     }
 
+    //Metodo que se llama para que se esconda la pantalla
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
     }
 
+    //Metodo que se llama para liberar recursos
     @Override
     public void dispose() {
         stage.dispose();

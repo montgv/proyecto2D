@@ -20,13 +20,13 @@ public class TheEndScreen extends ScreenAdapter {
         stage = new Stage(new ScreenViewport());
 
         if (ganador) {
-            Label title = new Label("Has ganado, has conseguido " + puntos + " puntos", game.gameSkin, "title");
+            Label title = new Label("Has ganado!!!!!!\nHas conseguido " + puntos + " puntos", game.gameSkin, "title");
             title.setAlignment(Align.center);
             title.setY(Gdx.graphics.getHeight() * 2 / 3);
             title.setWidth(Gdx.graphics.getWidth());
             stage.addActor(title);
         } else {
-            Label title = new Label("Has perdido, has conseguido " + puntos + " puntos", game.gameSkin, "title");
+            Label title = new Label("Has perdido :( :( :(\nHas conseguido " + puntos + " puntos", game.gameSkin, "title");
             title.setAlignment(Align.center);
             title.setY(Gdx.graphics.getHeight() * 2 / 3);
             title.setWidth(Gdx.graphics.getWidth());
@@ -50,6 +50,24 @@ public class TheEndScreen extends ScreenAdapter {
             }
         });
         stage.addActor(startButton);
+
+        //Añadimos el boton de salir y su posicion, cuando pulsamos el boton que se nos cierre el juego
+        TextButton exitButton = new TextButton("Salir", game.gameSkin);
+        exitButton.setWidth(Gdx.graphics.getWidth() / 4);
+        exitButton.setPosition(Gdx.graphics.getWidth() / 2 - exitButton.getWidth() / 2,
+                Gdx.graphics.getHeight() / 4 - exitButton.getHeight() / 2);
+        exitButton.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(exitButton);
     }
 
     //Metodo que se llama para mostrar la pantalla, este caso se muestra el escenario
